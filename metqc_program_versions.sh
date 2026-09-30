@@ -31,7 +31,7 @@ prinseq-lite.pl -version
 
 echo -e ""
 
-# bmtagger# version 1.1.0
+# bmtagger (v3.101) version 1.1.0
 
 # Activate the bmtagger conda environment.
 conda activate bmtagger_env
