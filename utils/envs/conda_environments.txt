@@ -33,3 +33,26 @@ conda create --name seqkit_env
 conda activate seqkit_env
 conda install -c conda-forge -c bioconda seqkit=2.14.0 -y
 
+
+# Export conda environments to a yaml file.
+conda activate fastqc_env
+conda env export > fastqc_env.yaml
+
+conda activate multiqc_env
+conda env export > multiqc_env.yaml
+
+conda activate prinseq_env
+conda env export > prinseq_env.yaml
+
+conda activate bmtagger_env
+conda env export > bmtagger_env.yaml
+
+conda activate bbmap_env
+conda env export > bbmap_env.yaml
+
+conda activate python_3_14_env 
+conda env export > python_3_14_env.yaml
+
+conda activate seqkit_env
+conda env export > seqkit_env.yaml
+
