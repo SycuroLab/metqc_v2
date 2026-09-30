@@ -42,8 +42,9 @@ rule all:
         os.path.join(config["output_dir"],"multiqc","multiqc_report_raw.html"),
 	## comment out the line below if host_contamination rule fails.
         config["output_dir"]+"/qc_seqkit.csv",
-        os.path.join(config["output_dir"],"multiqc","multiqc_report_raw.html") if config["qc_only"] else os.path.join(config["output_dir"],"multiqc/multiqc_prinseq","multiqc_report_prinseq_filtered.html"),
-        os.path.join(config["output_dir"],"multiqc","multiqc_report_bmtagger_filtered.html"),
+        os.path.join(config["output_dir"],"multiqc","multiqc_report_raw.html"),
+	os.path.join(config["output_dir"],"multiqc","multiqc_report_prinseq_filtered.html"),
+	os.path.join(config["output_dir"],"multiqc","multiqc_report_bmtagger_filtered.html"),
         os.path.join(config["output_dir"],"bbmerge_percent_overlap","merged_percent_overlap_table.csv"),
         os.path.join(config["output_dir"],"bbmerge_percent_overlap","merged_percent_overlap_stats.csv"),
         os.path.join(config["output_dir"],"bbmerge_percent_overlap","percent_overlap_read_counts_persample.csv"),
@@ -64,7 +65,7 @@ rule fastqc_raw:
         r2 = os.path.join(config["output_dir"],"fastqc_raw","{sample}"+reverse_read_num+"_fastqc.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"fastqc_raw")
-    conda: "fastqc"
+    conda: "fastqc_env"
     shell: "fastqc -o {params.fastqc_dir} {input.r1} {input.r2}"
 
 
@@ -87,7 +88,9 @@ rule bbduk_adapt:
     output:
         r1 = os.path.join(config["output_dir"],"bbduk_adapters","{sample}_1_bbduk_adapt_filt.fastq.gz"),
         r2 = os.path.join(config["output_dir"],"bbduk_adapters","{sample}_2_bbduk_adapt_filt.fastq.gz")
-    conda: "bbmap"
+    params:
+        
+    conda: "bbmap_env"
     shell: "bbduk.sh in1={input.r1} in2={input.r2} out1={output.r1} out2={output.r2} ktrim=r k=23 mink=11 hdist=1 maxns=15 tbo tpe hdist=1 ref=adapters threads={config[num_cpus]}"
 
 
@@ -98,20 +101,20 @@ rule bbduk_polyg:
     output:
         r1 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_1_bbduk_polyg_filt.fastq"),
         r2 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_2_bbduk_polyg_filt.fastq")
-    conda: "bbmap"
+    conda: "bbmap_env"
     shell: "polyfilter.sh in1={input.r1} in2={input.r2} out1={output.r1} out2={output.r2} polymers=GC threads={config[num_cpus]}"
 
 
 rule prinseq:
     input:
-        r1 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_1_bbduk_polyg_filt.fastq") if config["run_cutadapt"] else os.path.join(config["input_dir"],"{sample}"+config["forward_read_suffix"]),
-        r2 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_2_bbduk_polyg_filt.fastq") if config["run_cutadapt"] else os.path.join(config["input_dir"],"{sample}"+config["reverse_read_suffix"])
+        r1 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_1_bbduk_polyg_filt.fastq"), 
+        r2 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_2_bbduk_polyg_filt.fastq")
     params:
         prefix = os.path.join(config["output_dir"],"prinseq","{sample}_filtered")
     output:
         r1 = os.path.join(config["output_dir"],"prinseq","{sample}_filtered_1.fastq"),
         r2 = os.path.join(config["output_dir"],"prinseq","{sample}_filtered_2.fastq")
-    conda: "prinseq"
+    conda: "prinseq_env"
     shell:
             "perl utils/scripts/prinseq-lite.pl -fastq {input.r1} -fastq2 {input.r2} "
             "-trim_left {config[trimleft]} -trim_right {config[trimright]} "
@@ -133,7 +136,7 @@ rule bmtagger:
     params:
         n = os.path.join(config["output_dir"],"bmtagger","{sample}_bmtagged"),
         r3 = os.path.join(config["output_dir"],"bmtagger","bmtagger_complete.txt")
-    conda: "bmtagger"
+    conda: "bmtagger_env"
     shell:
         "bmtagger.sh -b {config[bmfilter_ref]} -x {config[srprism_ref]} -q 1 -1 {input.r1} -2 {input.r2} -o {params.n} -X;"
         " touch  {params.r3}"
@@ -148,7 +151,7 @@ rule fastqc_prinseq_filt:
         r2 = os.path.join(config["output_dir"],"prinseq","fastqc_prinseq","{sample}_filtered_2_fastqc.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"prinseq","fastqc_prinseq")
-    conda: "fastqc"
+    conda: "fastqc_env"
     shell: "fastqc -o {params.fastqc_dir} {input.r1} {input.r2}"
 
 
@@ -173,7 +176,7 @@ rule fastqc_bmtagger_filt:
         r2 = os.path.join(config["output_dir"],"bmtagger","fastqc_bmtagger","{sample}_bmtagged_2_fastqc.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"bmtagger","fastqc_bmtagger/")
-    conda: "fastqc"
+    conda: "fastqc_env"
     shell: "fastqc -o {params.fastqc_dir} {input.r1} {input.r2}"
 
 
@@ -204,7 +207,7 @@ rule bbmap:
         m = os.path.join(config["output_dir"],"bbmap","{sample}_human_reads_#.fastq"),
         pre = "{sample}",
         out_dir = os.path.join(config["output_dir"],"bbmap_stats")
-    conda: "utils/envs/bbmap_env.yaml"
+    conda: "bbmap_env"
     shell:
         "bbmap.sh in={params.i} outu={params.u} outm={params.m} ref={config[bbmap_ref]} nodisk scafstats={params.out_dir}/{params.pre}_scafstats.txt ihist={params.out_dir}/{params.pre}_ihist.txt statsfile={params.out_dir}/{params.pre}_statsfile.txt"
 
@@ -218,7 +221,7 @@ rule bbmap_insert_size:
     params:
         path=config["bbmap_ref_ind"],
         threads=config["num_cpus"]
-    conda: "utils/envs/bbmap_env.yaml"
+    conda: "bbmap_env"
     shell:
         "bbmap.sh build=1 pairedonly=t in={input.r1} in2={input.r2} interleaved=f minid=0.8 threads={params.threads} ambiguous=all ihist={output.ihist} path={params.path}"
 
@@ -232,7 +235,7 @@ rule bbmap_merge_ihists:
        o3=os.path.join(config["output_dir"],"bbmap_insert_size","mapped_read_counts_persample.csv"),
        o4=os.path.join(config["output_dir"],"bbmap_insert_size","insert_size_plot.png"),
        o5=os.path.join(config["output_dir"],"bbmap_insert_size","meansofstats_insert_size.csv")
-     conda: "utils/envs/python3_8.yaml"
+     conda: "python3_14_env"
      script: "utils/scripts/merge_ihist.py"
 
 
@@ -245,7 +248,7 @@ rule bbmerge_percent_overlap:
     params:
         path=config["bbmap_ref_ind"],
         threads=config["num_cpus"]
-    conda: "utils/envs/bbmap_env.yaml"
+    conda: "bbmap_env"
     shell:
        " bbmerge.sh in={input.r1} in2={input.r2} ihist={output.ihist}"
 
@@ -259,7 +262,7 @@ rule bbmerge_ihists:
        o3=os.path.join(config["output_dir"],"bbmerge_percent_overlap","percent_overlap_read_counts_persample.csv"),
        o4=os.path.join(config["output_dir"],"bbmerge_percent_overlap","percent_overlap_plot.png"),
        o5=os.path.join(config["output_dir"],"bbmerge_percent_overlap","meansofstats_percent_overlap.csv")
-     conda: "utils/envs/python3_8.yaml"
+     conda: "python3_14_env"
      script: "utils/scripts/merge_ihist.py"
 
 
@@ -276,7 +279,7 @@ rule seqkit:
         raw=config["input_dir"],
         prinseq=directory(os.path.join(config["output_dir"],"prinseq")),
         bmtagger=directory(os.path.join(config["output_dir"],"bmtagger"))
-     conda: "utils/envs/seqkit.yaml"
+     conda: "seqkit_env"
      shell:
          "seqkit stats -j {config[num_cpus]} {params.prinseq}/*_[0-9].fastq -o {output.prinseq};"
          "seqkit stats -j {config[num_cpus]} {params.bmtagger}/*.fastq -o {output.bmtagger};"
@@ -293,7 +296,7 @@ rule host_contamination:
      params:
         r1=forward_read_num, #config["reverse_read_suffix"],
         r2=reverse_read_num #config["forward_read_suffix"]
-     conda: "utils/envs/python3_8.yaml"
+     conda: "python3_14_env"
      output:
          hc=config["output_dir"]+"/qc_seqkit.csv"
      script:"utils/scripts/host_contamination.py"

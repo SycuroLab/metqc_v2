@@ -4,13 +4,15 @@
 # Run by Daniel on April 15th, 2026
 
 # List of files
-list_files: "list_files.txt"
+#list_files: "list_files.txt"
+list_files: "list_3_files.txt"
 
 # Input directory Path to raw sequences
 input_dir: "/bulk/sycuro_bulk/shared_projects/parkinsons/Vancouver_PD92/raw_data"
 
 # Output directory path for output files.
-output_dir: "/bulk/sycuro_bulk/ayman/PD_vancouver_92/metqc/output"
+#output_dir: "/bulk/sycuro_bulk/ayman/PD_vancouver_92/metqc/output"
+output_dir: "/bulk/sycuro_bulk/output_test"
 
 # Suffix for forward reads.
 forward_read_suffix: "_R1.fastq"
@@ -21,17 +23,11 @@ reverse_read_suffix: "_R2.fastq"
 # Run fastqc and multiqc only
 qc_only: FALSE
 
-### Cutadapt parameters
+## bbmap suite parameters 
+#
+# The number of cpu cores to use
+num_cpus: 20
 
-# The number of cpu cores to use for cutadapt
-num_cpus: 7
-
-# Choose whether to run cutadapt
-run_cutadapt: TRUE
-
-# Adapters for cutadapt
-fwd_adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
-rev_adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
 
 ### Prinseq parameters
 trimleft: 0

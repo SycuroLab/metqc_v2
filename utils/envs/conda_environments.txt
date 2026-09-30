@@ -1,0 +1,35 @@
+# Install the fastqc conda environment.
+conda create --name fastqc_env
+conda activate fastqc_env
+conda install -c conda-forge -c bioconda  fastqc=0.11.8 -y
+
+# Install the multiqc conda environment.
+conda create --name multiqc_env
+conda activate multiqc_env
+conda install -c conda-forge -c bioconda multiqc=1.35 -y
+
+# # Install the prinseq conda environment.
+conda create --name prinseq_env
+conda activate prinseq_env
+conda install -c conda-forge -c bioconda prinseq=0.20.4 -y
+
+# Install the bmtagger conda environment.
+conda create --name bmtagger_env
+conda activate bmtagger_env
+conda install -c bioconda bmtagger=3.101 -y
+
+# Install the bbmap conda environment.
+conda create --name bbmap_env
+conda activate bbmap_env
+conda install -c conda-forge -c bioconda bbmap=40.02 -y
+
+# Install the python conda environment.
+conda create --name python_3_14_env
+conda activate python_3_14_env 
+conda install -c conda-forge python=3.14 -y 
+
+# Install the seqkit conda environment.
+conda create --name seqkit_env
+conda activate seqkit_env
+conda install -c conda-forge -c bioconda seqkit=2.14.0 -y
+

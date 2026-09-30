@@ -1,0 +1,7 @@
+name: seqkit_env
+channels:
+  - bioconda
+  - defaults
+dependencies:
+  - seqkit=2.14.0=hb192632_0
+prefix: /work/sycuro_lab/kevin/miniconda3/envs/seqkit_env
