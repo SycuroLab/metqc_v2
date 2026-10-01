@@ -149,8 +149,8 @@ rule fastqc_bbduk_adapt_filt:
         r1 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_1_bbduk_adapt_filt.fastq.gz"),
         r2 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_2_bbduk_adapt_filt.fastq.gz")
     output:
-        r1 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_bbduk_adapt_1_fastqc.html"),
-        r2 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_bbduk_adapt_2_fastqc.html")
+        r1 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_fastqc.html"),
+        r2 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_fastqc.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt/")
     conda: "fastqc_env"
@@ -159,8 +159,8 @@ rule fastqc_bbduk_adapt_filt:
 
 rule multiqc_bbduk_adapt_filt:
     input:
-        r1 = expand(os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_bbduk_adapt_1_fastqc.html"), sample=SAMPLES),
-        r2 = expand(os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_bbduk_adapt_2_fastqc.html"), sample=SAMPLES)
+        r1 = expand(os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_fastqc.html"), sample=SAMPLES),
+        r2 = expand(os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_fastqc.html"), sample=SAMPLES)
     output: os.path.join(config["output_dir"],"multiqc","multiqc_report_bbduk_adapt_filtered.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt"),
@@ -173,8 +173,8 @@ rule fastqc_bbduk_polyg_filt:
         r1 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_1_bbduk_polyg_filt.fastq"),
         r2 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_2_bbduk_polyg_filt.fastq")
     output:
-        r1 = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_bbduk_polyg_1_fastqc.html"),
-        r2 = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_bbduk_polyg_2_fastqc.html")
+        r1 = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_1_bbduk_polyg_fastqc.html"),
+        r2 = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_2_bbduk_polyg_fastqc.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg/")
     conda: "fastqc_env"
@@ -183,8 +183,8 @@ rule fastqc_bbduk_polyg_filt:
 
 rule multiqc_bbduk_polyg_filt:
     input:
-        r1 = expand(os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_bbduk_polyg_1_fastqc.html"), sample=SAMPLES),
-        r2 = expand(os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_bbduk_polyg_2_fastqc.html"), sample=SAMPLES)
+        r1 = expand(os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_1_bbduk_polyg_fastqc.html"), sample=SAMPLES),
+        r2 = expand(os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_2_bbduk_polyg_fastqc.html"), sample=SAMPLES)
     output: os.path.join(config["output_dir"],"multiqc","multiqc_report_bbduk_polyg_filtered.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg"),
@@ -332,9 +332,9 @@ rule seqkit:
         bmtagger=directory(os.path.join(config["output_dir"],"bmtagger"))
      conda: "seqkit_env"
      shell:
-         "seqkit stats -j {config[num_cpus]} {params.prinseq}/*_[0-9].fastq -o {output.prinseq};"
+         "seqkit stats -j {config[num_cpus]} {params.prinseq}/*.fastq -o {output.prinseq};"
          "seqkit stats -j {config[num_cpus]} {params.bmtagger}/*.fastq -o {output.bmtagger};"
-         "seqkit stats -j {config[num_cpus]} {params.raw}/*.fastq.gz -o {output.raw};"
+         "seqkit stats -j {config[num_cpus]} {params.raw}/*.fastq -o {output.raw};"
          "touch {output.complete};"
 
 
@@ -345,8 +345,8 @@ rule host_contamination:
         bmtagger=config["output_dir"]+"/seq_kit_bmtagger.csv",
         complete=config["output_dir"]+"/seq_kit_complete.csv"
      params:
-        r1=forward_read_num, #config["reverse_read_suffix"],
-        r2=reverse_read_num #config["forward_read_suffix"]
+        r1=forward_read_num,
+        r2=reverse_read_num 
      conda: "python_env"
      output:
          hc=config["output_dir"]+"/qc_seqkit.csv"
