@@ -149,8 +149,8 @@ rule fastqc_bbduk_adapt_filt:
         r1 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_1_bbduk_adapt_filt.fastq.gz"),
         r2 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_2_bbduk_adapt_filt.fastq.gz")
     output:
-        r1 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_fastqc.html"),
-        r2 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_fastqc.html")
+        r1 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_filt_fastqc.html"),
+        r2 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_2_bbduk_adapt_filt_fastqc.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt/")
     conda: "fastqc_env"
@@ -159,11 +159,11 @@ rule fastqc_bbduk_adapt_filt:
 
 rule multiqc_bbduk_adapt_filt:
     input:
-        r1 = expand(os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_fastqc.html"), sample=SAMPLES),
-        r2 = expand(os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_fastqc.html"), sample=SAMPLES)
+        r1 = expand(os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_1_bbduk_adapt_filt_fastqc.html"), sample=SAMPLES),
+        r2 = expand(os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_2_bbduk_adapt_filt_fastqc.html"), sample=SAMPLES)
     output: os.path.join(config["output_dir"],"multiqc","multiqc_report_bbduk_adapt_filtered.html")
     params:
-        fastqc_dir = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt"),
+        fastqc_dir = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt/"),
         multiqc_dir = os.path.join(config["output_dir"],"multiqc")
     conda: "multiqc_env"
     shell: "multiqc -c utils/multiqc_config.yaml -f {params.fastqc_dir} -o {params.multiqc_dir} -n multiqc_report_bbduk_adapt_filtered.html"
@@ -173,8 +173,8 @@ rule fastqc_bbduk_polyg_filt:
         r1 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_1_bbduk_polyg_filt.fastq"),
         r2 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_2_bbduk_polyg_filt.fastq")
     output:
-        r1 = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_1_bbduk_polyg_fastqc.html"),
-        r2 = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_2_bbduk_polyg_fastqc.html")
+        r1 = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_1_bbduk_polyg_filt_fastqc.html"),
+        r2 = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_2_bbduk_polyg_filt_fastqc.html")
     params:
         fastqc_dir = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg/")
     conda: "fastqc_env"
@@ -183,11 +183,11 @@ rule fastqc_bbduk_polyg_filt:
 
 rule multiqc_bbduk_polyg_filt:
     input:
-        r1 = expand(os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_1_bbduk_polyg_fastqc.html"), sample=SAMPLES),
-        r2 = expand(os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_2_bbduk_polyg_fastqc.html"), sample=SAMPLES)
+        r1 = expand(os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_1_bbduk_polyg_filt_fastqc.html"), sample=SAMPLES),
+        r2 = expand(os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg","{sample}_2_bbduk_polyg_filt_fastqc.html"), sample=SAMPLES)
     output: os.path.join(config["output_dir"],"multiqc","multiqc_report_bbduk_polyg_filtered.html")
     params:
-        fastqc_dir = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg"),
+        fastqc_dir = os.path.join(config["output_dir"],"bbduk_polyg","fastqc_bbduk_polyg/"),
         multiqc_dir = os.path.join(config["output_dir"],"multiqc")
     conda: "multiqc_env"
     shell: "multiqc -c utils/multiqc_config.yaml -f {params.fastqc_dir} -o {params.multiqc_dir} -n multiqc_report_bmtagger_filtered.html"
