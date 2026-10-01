@@ -40,18 +40,18 @@ bmtagger.sh -V 2>&1 | grep "version"
 
 echo -e ""
 
-## BBTools version 40.02
+## BBTools version 39.09
 
 # Activate the bbmap conda environment.
 conda activate bbmap_env
 
-# bbduk.sh BBTools version 40.02
+# bbduk.sh BBTools version 39.09
 echo "bbduk.sh"
 bbduk.sh --version 2>&1 | grep "BBTools version"
 
 echo -e ""
 
-# polyfilter.sh BBTools version 40.02
+# polyfilter.sh BBTools version 39.09
 echo "polyfilter.sh"
 polyfilter.sh --version 2>&1 | grep "BBTools version"
 

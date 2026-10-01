@@ -21,12 +21,15 @@ conda install -c bioconda bmtagger=3.101 -y
 # Install the bbmap conda environment.
 conda create --name bbmap_env
 conda activate bbmap_env
-conda install -c conda-forge -c bioconda bbmap=40.02 -y
+conda install -c conda-forge -c bioconda bbmap=39.09 -y
 
 # Install the python conda environment.
-conda create --name python_3_14_env
-conda activate python_3_14_env 
+conda create --name python_env
+conda activate python_env 
 conda install -c conda-forge python=3.14 -y 
+conda install -c conda-forge matplotlib=3.11.2 -y 
+conda install -c conda-forge pandas=3.0.6 -y
+conda install -c conda-forge numpy=2.5.3 -y
 
 # Install the seqkit conda environment.
 conda create --name seqkit_env
@@ -50,8 +53,8 @@ conda env export > bmtagger_env.yaml
 conda activate bbmap_env
 conda env export > bbmap_env.yaml
 
-conda activate python_3_14_env 
-conda env export > python_3_14_env.yaml
+conda activate python_env 
+conda env export > python_env.yaml
 
 conda activate seqkit_env
 conda env export > seqkit_env.yaml
