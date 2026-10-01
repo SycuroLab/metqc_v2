@@ -88,8 +88,8 @@ rule bbduk_adapt:
         r1 = os.path.join(config["input_dir"],"{sample}"+config["forward_read_suffix"]),
         r2 = os.path.join(config["input_dir"],"{sample}"+config["reverse_read_suffix"])
     output:
-        r1 = os.path.join(config["output_dir"],"bbduk_adapters","{sample}_1_bbduk_adapt_filt.fastq.gz"),
-        r2 = os.path.join(config["output_dir"],"bbduk_adapters","{sample}_2_bbduk_adapt_filt.fastq.gz")
+        r1 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_1_bbduk_adapt_filt.fastq.gz"),
+        r2 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_2_bbduk_adapt_filt.fastq.gz")
     params:
         
     conda: "bbmap_env"
@@ -98,8 +98,8 @@ rule bbduk_adapt:
 
 rule bbduk_polyg:
     input:
-        r1 = os.path.join(config["output_dir"],"bbduk_adapters","{sample}_1_bbduk_adapt_filt.fastq.gz"),
-        r2 = os.path.join(config["output_dir"],"bbduk_adapters","{sample}_2_bbduk_adapt_filt.fastq.gz")
+        r1 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_1_bbduk_adapt_filt.fastq.gz"),
+        r2 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_2_bbduk_adapt_filt.fastq.gz")
     output:
         r1 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_1_bbduk_polyg_filt.fastq"),
         r2 = os.path.join(config["output_dir"],"bbduk_polyg","{sample}_2_bbduk_polyg_filt.fastq")
@@ -146,8 +146,8 @@ rule bmtagger:
 
 rule fastqc_bbduk_adapt_filt:
     input:
-        r1 = os.path.join(config["output_dir"],"bbduk_adapters","{sample}_1_bbduk_adapt_filt.fastq.gz"),
-        r2 = os.path.join(config["output_dir"],"bbduk_adapters","{sample}_2_bbduk_adapt_filt.fastq.gz")
+        r1 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_1_bbduk_adapt_filt.fastq.gz"),
+        r2 = os.path.join(config["output_dir"],"bbduk_adapt","{sample}_2_bbduk_adapt_filt.fastq.gz")
     output:
         r1 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_bbduk_adapt_1_fastqc.html"),
         r2 = os.path.join(config["output_dir"],"bbduk_adapt","fastqc_bbduk_adapt","{sample}_bbduk_adapt_2_fastqc.html")
