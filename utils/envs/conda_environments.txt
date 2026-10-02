@@ -1,43 +1,99 @@
-# Install the fastqc conda environment.
-conda create --name fastqc_env
-conda activate fastqc_env
-conda install -c conda-forge -c bioconda  fastqc=0.11.8 -y
+### Install all the conda environments required to run the metqc snakemake pipeline.
 
-# Install the multiqc conda environment.
+## Install the fastqc conda environment.
+
+# Create the fastqc conda environment.
+conda create --name fastqc_env
+
+# Activate the fastqc conda environment.
+conda activate fastqc_env
+
+# Install the fastqc conda package.
+conda install -c conda-forge -c bioconda fastqc=0.11.8 -y
+
+
+## Install the multiqc conda environment.
+
+# Create the multiqc conda environment.
 conda create --name multiqc_env
+
+# Activate the multiqc conda environment.
 conda activate multiqc_env
+
+# Install the multiqc conda package.
 conda install -c conda-forge -c bioconda multiqc=1.35 -y
 
-# # Install the prinseq conda environment.
+
+## Install the prinseq conda environment.
+
+# Create the prinseq conda environment.
 conda create --name prinseq_env
+
+# Activate the prinseq conda environment.
 conda activate prinseq_env
+
+# Install the prinseq conda package.
 conda install -c conda-forge -c bioconda prinseq=0.20.4 -y
 
-# Install the bmtagger conda environment.
+
+## Install the bmtagger conda environment.
+
+# Create the bmtagger conda environment.
 conda create --name bmtagger_env
+
+# Activate the bmtagger conda environment.
 conda activate bmtagger_env
+
+# Install the bmtagger conda package.
 conda install -c bioconda bmtagger=3.101 -y
 
-# Install the bbmap conda environment.
+
+## Install the bbmap conda environment.
+
+# Create the bbmap conda environment.
 conda create --name bbmap_env
+
+# Activate the bbmap conda environment.
 conda activate bbmap_env
+
+# Install the bbmap conda package.
 conda install -c conda-forge -c bioconda bbmap=39.09 -y
 
-# Install the python conda environment.
+
+## Install the python conda environment.
+
+# Create the python conda environment.
 conda create --name python_env
+
+# Activate the python conda environment.
 conda activate python_env 
+
+# Install the python conda package.
 conda install -c conda-forge python=3.14 -y 
+
+# Install the matplotlib conda package.
 conda install -c conda-forge matplotlib=3.11.2 -y 
+
+# Install the pandas conda package.
 conda install -c conda-forge pandas=3.0.6 -y
+
+# Install the numpy conda package.
 conda install -c conda-forge numpy=2.5.3 -y
 
-# Install the seqkit conda environment.
+
+## Install seqkit conda environment.
+
+# Create the seqkit conda environment.
 conda create --name seqkit_env
+
+# Activate the seqkit conda environment.
 conda activate seqkit_env
+
+# Install the seqkit conda package.
 conda install -c conda-forge -c bioconda seqkit=2.14.0 -y
 
 
-# Export conda environments to a yaml file.
+## Export conda environments to a yaml file.
 conda activate fastqc_env
 conda env export > fastqc_env.yaml
 
