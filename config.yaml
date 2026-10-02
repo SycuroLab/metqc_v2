@@ -11,7 +11,6 @@ list_files: "list_3_files.txt"
 input_dir: "/bulk/sycuro_bulk/shared_projects/parkinsons/Vancouver_PD92/raw_data"
 
 # Output directory path for output files.
-#output_dir: "/bulk/sycuro_bulk/ayman/PD_vancouver_92/metqc/output"
 output_dir: "/bulk/sycuro_bulk/output_test"
 
 # Suffix for forward reads.
