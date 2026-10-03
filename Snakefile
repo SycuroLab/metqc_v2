@@ -44,22 +44,25 @@ rule all:
         os.path.join(config["output_dir"],"report_files","multiqc","multiqc_report_bbduk_adapt_filtered.html"),
         os.path.join(config["output_dir"],"report_files","multiqc","multiqc_report_bbduk_polyg_filtered.html"),
 	os.path.join(config["output_dir"],"report_files","multiqc","multiqc_report_prinseq_filtered.html"),
-	os.path.join(config["output_dir"],"report_files","multiqc","multiqc_report_bmtagger_filtered.html"),
-        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","merged_percent_overlap_table.csv"),
-        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","merged_percent_overlap_stats.csv"),
-        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","percent_overlap_read_counts_persample.csv"),
-        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","percent_overlap_plot.png"),
+        os.path.join(config["output_dir"],"report_files","multiqc","multiqc_report_bmtagger_filtered.html"),
+        expand(os.path.join(config["output_dir"],"report_files","bbmap_insert_size","insert_size","{sample}_ihist.csv"), sample=SAMPLES),
         os.path.join(config["output_dir"],"report_files","bbmap_insert_size","merged_insert_size_table.csv"),
         os.path.join(config["output_dir"],"report_files","bbmap_insert_size","merged_insert_size_stats.csv"),
         os.path.join(config["output_dir"],"report_files","bbmap_insert_size","mapped_read_counts_persample.csv"),
         os.path.join(config["output_dir"],"report_files","bbmap_insert_size","insert_size_plot.png"),
+        os.path.join(config["output_dir"],"report_files","bbmap_insert_size","meansofstats_insert_size.csv"),
+        expand(os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","percent_overlap","{sample}_ihist.csv"), sample=SAMPLES),
+        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","merged_percent_overlap_table.csv"),
+        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","merged_percent_overlap_stats.csv"),
+        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","percent_overlap_read_counts_persample.csv"),
+        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","percent_overlap_plot.png"),
+        os.path.join(config["output_dir"],"report_files","bbmerge_percent_overlap","meansofstats_percent_overlap.csv"),
         os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bbduk_adapt.csv"),
         os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bbduk_polyg.csv"),
         os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_prinseq.csv"),
         os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bmtagger.csv"),
         os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit.done")
         #config["output_dir"]+"/qc_seqkit.csv",
-
 
 rule fastqc_raw:
     input:
@@ -341,7 +344,7 @@ rule seqkit:
      conda: "seqkit_env"
      shell:
          "seqkit stats -j {config[num_cpus]} {params.raw}/*.fastq -o {output.raw};"
-         "seqkit stats -j {config[num_cpus]} {params.bbduk_adapt}/*.fastq -o {output.bbduk_adapt};"
+         "seqkit stats -j {config[num_cpus]} {params.bbduk_adapt}/*.fastq.gz -o {output.bbduk_adapt};" # bbduk_adapt rule generates .fastq.gz files. Do not change.
          "seqkit stats -j {config[num_cpus]} {params.bbduk_polyg}/*.fastq -o {output.bbduk_polyg};"
          "seqkit stats -j {config[num_cpus]} {params.prinseq}/*.fastq -o {output.prinseq};"
          "seqkit stats -j {config[num_cpus]} {params.bmtagger}/*.fastq -o {output.bmtagger};"
