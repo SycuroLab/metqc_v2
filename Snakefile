@@ -39,7 +39,7 @@ def all_input_reads(qc):
 
 rule all:
     input:
-        #config["output_dir"]+"/qc_seqkit.csv",
+        all_input_reads,    
         os.path.join(config["output_dir"],"report_files","multiqc","multiqc_report_raw.html"),
         os.path.join(config["output_dir"],"report_files","multiqc","multiqc_report_bbduk_adapt_filtered.html"),
         os.path.join(config["output_dir"],"report_files","multiqc","multiqc_report_bbduk_polyg_filtered.html"),
@@ -53,7 +53,12 @@ rule all:
         os.path.join(config["output_dir"],"report_files","bbmap_insert_size","merged_insert_size_stats.csv"),
         os.path.join(config["output_dir"],"report_files","bbmap_insert_size","mapped_read_counts_persample.csv"),
         os.path.join(config["output_dir"],"report_files","bbmap_insert_size","insert_size_plot.png"),
-        all_input_reads
+        os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bbduk_adapt.csv"),
+        os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bbduk_polyg.csv"),
+        os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_prinseq.csv"),
+        os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bmtagger.csv"),
+        os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit.done")
+        #config["output_dir"]+"/qc_seqkit.csv",
 
 
 rule fastqc_raw:
@@ -321,12 +326,12 @@ rule seqkit:
         r1 = expand(os.path.join(config["output_dir"],"bmtagger","{sample}_bmtagged_1.fastq"), sample=SAMPLES),
         r2 = expand(os.path.join(config["output_dir"],"bmtagger","{sample}_bmtagged_2.fastq"), sample=SAMPLES),
      output:
-        raw=config["output_dir"]+"/report_files/seqkit_stats/seqkit_raw.csv",
-        bbduk_adapt=config["output_dir"]+"/report_files/seqkit_stats/seqkit_bbduk_adapt.csv",
-        bbduk_polyg=config["output_dir"]+"/report_files/seqkit_stats/seqkit_bbduk_polyg.csv",
-        prinseq=config["output_dir"] +"/report_files/seqkit_stats/seqkit_prinseq.csv",
-        bmtagger=config["output_dir"]+"/report_files/seqkit_stats/seqkit_bmtagger.csv",
-        complete=config["output_dir"]+"/report_files/seqkit_stats/seqkit.done"
+        raw=os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_raw.csv"),
+        bbduk_adapt=os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bbduk_adapt.csv"),
+        bbduk_polyg=os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bbduk_polyg.csv"),
+        prinseq=os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_prinseq.csv"),
+        bmtagger=os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit_bmtagger.csv"),
+        complete=os.path.join(config["output_dir"],"report_files","seqkit_stats","seqkit.done")
      params:
         raw=config["input_dir"],
         bbduk_adapt=directory(os.path.join(config["output_dir"],"bbduk_adapt")),

@@ -50,12 +50,12 @@ cp Snakefile $snakemake_file_dir
 cp config.yaml $snakemake_file_dir
 cp cluster.json $snakemake_file_dir
 cp metqc_sbatch.sh $snakemake_file_dir 
-cp metqc_run* $snakemake_file_dir
+cp run_metqc* $snakemake_file_dir
 
 cp -rf logs $snakemake_file_dir
 cp -rf utils $snakemake_file_dir
 
-
+bash metqc_program_versions.sh &> "${output_dir}/metqc_program_version_list.txt"
 echo "finished with exit code $? at: `date`"
 
 
