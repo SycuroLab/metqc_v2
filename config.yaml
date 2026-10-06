@@ -4,14 +4,14 @@
 # Run by Daniel on April 15th, 2026
 
 # List of files
-#list_files: "list_files.txt"
-list_files: "list_3_files.txt"
+list_files: "list_files.txt"
+#list_files: "list_3_files.txt"
 
 # Input directory Path to raw sequences
 input_dir: "/bulk/sycuro_bulk/shared_projects/parkinsons/Vancouver_PD92/raw_data"
 
 # Output directory path for output files.
-output_dir: "/bulk/sycuro_bulk/output_test"
+output_dir: "/bulk/sycuro_bulk/shared_projects/parkinsons/Vancouver_PD92/metqc_v2_output_2026-10-03"
 
 # Suffix for forward reads.
 forward_read_suffix: "_R1.fastq"
